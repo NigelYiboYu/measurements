@@ -13,9 +13,9 @@ CONFIDENCE <- 0.99
 OUTLIER_LIMIT <- 0.05
 OUTLIER_SLACK <- 0.1
 
-PLOT_ROWS <- 3
-PLOT_WIDTH <- 600
-PLOT_HEIGHT <- 250
+PLOT_ROWS <- 6
+PLOT_WIDTH <- 300
+PLOT_HEIGHT <- 500
 
 
 # Incrementally load data.
@@ -127,5 +127,5 @@ do_plot_mean <- function (data) {
 
 data <- master %>% filter (warm)
 
-ggsave ('overview-mean.svg', do_plot_mean (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
-ggsave ('overview-violin.svg', do_plot_violin (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
+ggsave ('overview-mean.png', do_plot_mean (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
+ggsave ('overview-violin.png', do_plot_violin (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
