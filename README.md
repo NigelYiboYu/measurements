@@ -44,7 +44,7 @@ Java(TM) SE Runtime Environment (build 1.8.0_202-b08)
 Java HotSpot(TM) GraalVM EE 1.0.0-rc16 (build 25.202-b08-jvmci-0.59, mixed mode)
 ```
 
-- **HotSpot JDK 8 JVMCI** is the Graal Enterprise Edition JVM implementation run with `-XX:-EnableJVMCI -XX:-UseJVMCICompiler`.
+- **HotSpot JDK 8 JVMCI** is the Graal Enterprise Edition JVM implementation run with `-XX:-EnableJVMCI -XX:-UseJVMCICompiler` to force the use of the default HotSpot JIT compiler.
 
 - **OpenJ9 JDK 8** is the Eclipse OpenJ9 JVM implementation.
 ```
@@ -57,7 +57,7 @@ OMR      - 4a4278e6
 JCL      - 5590c4f818 based on jdk8u212-b03)
 ```
 
-- **OpenJDK JDK 8 JVMCI** is the Graal Community Edition JVM implementation run with `-XX:-EnableJVMCI -XX:-UseJVMCICompiler`.
+- **OpenJDK JDK 8 JVMCI** is the Graal Community Edition JVM implementation run with `-XX:-EnableJVMCI -XX:-UseJVMCICompiler` to force the use of the default OpenJDK JIT compiler.
 
 #### Mean Repetition Times
 
