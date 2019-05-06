@@ -185,11 +185,15 @@ do_plot_ratio <- function (data) {
         facet_wrap (vars (benchmark), nrow = 1, scales = 'free_y', strip.position = 'bottom') +
         labs (x = NULL, y = 'Average speed up to OpenJDK baseline [%]', fill = 'JVM implementation') +
         theme (
+            text = element_text (family = 'Serif'),
             legend.position = 'bottom',
             axis.text.x = element_blank (),
             axis.ticks.x = element_blank (),
-            axis.title.y = element_text (size = 16),
-            strip.text.x = element_text (angle = 90, size = 16)) +
+            axis.title.y = element_text (size = 14),
+            strip.text.x = element_text (angle = 90, vjust = 0.5, hjust = 1, size = 14),
+            strip.background = element_blank (),
+            legend.text = element_text (size = 14),
+            legend.title = element_text (size = 14)) +
         scale_fill_manual (
             breaks = c ('OpenJDK', 'OpenJ9', 'GraalVM CE', 'GraalVM'),
             values = c ('#ecd5a0', '#60aa52', '#a73607', '#6e8ab1'))
