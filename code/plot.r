@@ -193,7 +193,9 @@ do_plot_ratio <- function (data) {
             strip.text.x = element_text (angle = 90, vjust = 0.5, hjust = 1, size = 14),
             strip.background = element_blank (),
             legend.text = element_text (size = 14),
-            legend.title = element_text (size = 14)) +
+            legend.title = element_text (size = 14),
+            legend.box.background = element_rect (fill = 'transparent', color = NA),
+            plot.background = element_rect (fill = 'transparent', color = NA)) +
         scale_fill_manual (
             breaks = c ('OpenJDK', 'OpenJ9', 'GraalVM CE', 'GraalVM'),
             values = c ('#ecd5a0', '#60aa52', '#a73607', '#6e8ab1'))
@@ -204,6 +206,6 @@ do_plot_ratio <- function (data) {
 
 data <- master %>% filter (warm)
 
-ggsave ('stripe.png', do_plot_ratio (data), width = STRIPE_WIDTH, height = STRIPE_HEIGHT, unit = 'mm')
-ggsave ('overview-mean.png', do_plot_mean (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
-ggsave ('overview-violin.png', do_plot_violin (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
+ggsave ('stripe.png', do_plot_ratio (data), width = STRIPE_WIDTH, height = STRIPE_HEIGHT, unit = 'mm', bg = 'transparent')
+#ggsave ('overview-mean.png', do_plot_mean (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
+#ggsave ('overview-violin.png', do_plot_violin (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
