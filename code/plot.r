@@ -47,8 +47,19 @@ for (vm_dir in vm_dirs) {
 master <- master %>% mutate (time = time / 1000)
 
 # Change names for pretty printing.
+# Also enforce ordering with Oracle JDK first,
+# since it is probably closest to reference we have.
 # TODO Eventually this should be read from metadata.
 master <- master %>% mutate (vm = gsub ('-', ' ', vm))
+master <- master %>% mutate (vm = factor (vm, ordered = TRUE, levels = c (
+    'HotSpot JDK 8',
+    'HotSpot JDK 8 JVMCI',
+    'OpenJDK JDK 8',
+    'OpenJDK JDK 8 JVMCI',
+    'GraalCE JDK 8',
+    'GraalEE JDK 8',
+    'OpenJ9 JDK 8'
+)))
 
 
 # Annotate data with cold vs warm information.
