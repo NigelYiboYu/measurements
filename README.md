@@ -1,6 +1,6 @@
 ## Renaissance Benchmark Suite
 
-<p align="center"><img height="180px" src="https://github.com/D-iii-S/renaissance-benchmarks/raw/master/website/resources/images/mona-lisa-round.png"/></p>
+<p align="center"><img height="180px" src="https://github.com/renaissance-benchmarks/benchmarks/raw/master/website/resources/images/mona-lisa-round.png"/></p>
 
 The Renaissance Benchmark Suite is an open source collaborative benchmark project where the community can propose and improve benchmark workloads.
 This repository serves to track the performance of the suite on multiple JVM implementations,
@@ -64,7 +64,7 @@ JCL      - 5590c4f818 based on jdk8u212-b03)
 The figure shows the mean repetition time for each benchmark, computed as the average duration of all warm repetitions.
 The error bars show 99% confidence intervals for the mean computed using bootstrap.
 
-<p align="center"><img src="https://github.com/D-iii-S/renaissance-measurements/raw/master/overview-mean.png"/></p>
+<p align="center"><img src="https://github.com/renaissance-benchmarks/measurements/raw/master/overview-mean.png"/></p>
 
 #### Individual Repetition Times
 
@@ -74,4 +74,4 @@ the box inside the shape stretches from the low to the high quartile,
 with a mark at the median.
 Outlier filtering was used to discard no more than 10% of most extreme observations, to preserve plot scale.
 
-<p align="center"><img src="https://github.com/D-iii-S/renaissance-measurements/raw/master/overview-violin.png"/></p>
+<p align="center"><img src="https://github.com/renaissance-benchmarks/measurements/raw/master/overview-violin.png"/></p>
