@@ -194,6 +194,7 @@ do_plot_ratio <- function (data) {
             strip.background = element_blank (),
             legend.text = element_text (size = 14),
             legend.title = element_text (size = 14),
+            legend.background = element_rect (fill = 'transparent', color = NA),
             legend.box.background = element_rect (fill = 'transparent', color = NA),
             plot.background = element_rect (fill = 'transparent', color = NA)) +
         scale_fill_manual (
