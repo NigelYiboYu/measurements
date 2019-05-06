@@ -1,6 +1,6 @@
 ## Renaissance Benchmark Suite
 
-<p align="center"><img height="180px" src="https://github.com/renaissance-benchmarks/benchmarks/raw/master/website/resources/images/mona-lisa-round.png"/></p>
+<p align="center"><img height="180px" src="https://github.com/renaissance-benchmarks/renaissance/raw/master/website/resources/images/mona-lisa-round.png"/></p>
 
 The Renaissance Benchmark Suite is an open source collaborative benchmark project where the community can propose and improve benchmark workloads.
 This repository serves to track the performance of the suite on multiple JVM implementations,
