@@ -17,8 +17,9 @@ PLOT_ROWS <- 4
 PLOT_WIDTH <- 300
 PLOT_HEIGHT <- 300
 
-STRIPE_WIDTH <- 600
-STRIPE_HEIGHT <- 180
+STRIPE_ROWS <- 2
+STRIPE_WIDTH <- 400
+STRIPE_HEIGHT <- 250
 
 VM_BASELINE <- 'OpenJDK'
 
@@ -181,16 +182,16 @@ do_plot_ratio <- function (data) {
         group_map (do_ratio_interval, data)
     ggplot (summary, aes (x = vm, y = avg * 100, ymin = lo * 100, ymax = hi * 100, fill = vm)) +
         geom_col () +
-        geom_errorbar (width = 0.5) +
-        facet_wrap (vars (benchmark), nrow = 1, scales = 'free_y', strip.position = 'bottom') +
+        geom_errorbar (width = 0.5, color = '#555555') +
+        facet_wrap (vars (benchmark), nrow = STRIPE_ROWS, scales = 'free_y', strip.position = 'bottom') +
         labs (x = NULL, y = 'Average speed up to OpenJDK baseline [%]', fill = 'JVM implementation') +
         theme (
-            text = element_text (family = 'Serif'),
+            text = element_text (family = 'Serif', color = '#555555'),
             legend.position = 'bottom',
             axis.text.x = element_blank (),
             axis.ticks.x = element_blank (),
-            axis.title.y = element_text (size = 14),
-            strip.text.x = element_text (angle = 90, vjust = 0.5, hjust = 1, size = 14),
+            axis.title.y = element_text (size = 14, margin = margin (r = 10)),
+            strip.text.x = element_text (angle = 90, vjust = 0.5, hjust = 1, size = 14, color = '#555555'),
             strip.background = element_blank (),
             legend.text = element_text (size = 14),
             legend.title = element_text (size = 14),
