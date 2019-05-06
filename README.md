@@ -28,25 +28,9 @@ Except as noted below, other settings were left at default values.
 
 The JVM implementations referenced in the results are:
 
-- **GraalCE JDK 8** is Graal Community Edition 1.0.0-rc16.
-```
-> java -version
-openjdk version "1.8.0_202"
-OpenJDK Runtime Environment (build 1.8.0_202-20190206132807.buildslave.jdk8u-src-tar--b08)
-OpenJDK GraalVM CE 1.0.0-rc16 (build 25.202-b08-jvmci-0.59, mixed mode)
-```
+- **OpenJDK** is the Graal Community Edition JVM implementation run with `-XX:-EnableJVMCI -XX:-UseJVMCICompiler` to force the use of the default OpenJDK JIT compiler.
 
-- **GraalEE JDK 8** is Graal Enterprise Edition 1.0.0-rc16.
-```
-> java -version
-java version "1.8.0_202"
-Java(TM) SE Runtime Environment (build 1.8.0_202-b08)
-Java HotSpot(TM) GraalVM EE 1.0.0-rc16 (build 25.202-b08-jvmci-0.59, mixed mode)
-```
-
-- **HotSpot JDK 8 JVMCI** is the Graal Enterprise Edition JVM implementation run with `-XX:-EnableJVMCI -XX:-UseJVMCICompiler` to force the use of the default HotSpot JIT compiler.
-
-- **OpenJ9 JDK 8** is the Eclipse OpenJ9 JVM implementation.
+- **OpenJ9** is the Eclipse OpenJ9 JVM implementation.
 ```
 java -version
 openjdk version "1.8.0_212"
@@ -57,7 +41,21 @@ OMR      - 4a4278e6
 JCL      - 5590c4f818 based on jdk8u212-b03)
 ```
 
-- **OpenJDK JDK 8 JVMCI** is the Graal Community Edition JVM implementation run with `-XX:-EnableJVMCI -XX:-UseJVMCICompiler` to force the use of the default OpenJDK JIT compiler.
+- **GraalVM CE** is Graal Community Edition 1.0.0-rc16.
+```
+> java -version
+openjdk version "1.8.0_202"
+OpenJDK Runtime Environment (build 1.8.0_202-20190206132807.buildslave.jdk8u-src-tar--b08)
+OpenJDK GraalVM CE 1.0.0-rc16 (build 25.202-b08-jvmci-0.59, mixed mode)
+```
+
+- **GraalVM** is Graal Enterprise Edition 1.0.0-rc16.
+```
+> java -version
+java version "1.8.0_202"
+Java(TM) SE Runtime Environment (build 1.8.0_202-b08)
+Java HotSpot(TM) GraalVM EE 1.0.0-rc16 (build 25.202-b08-jvmci-0.59, mixed mode)
+```
 
 #### Mean Repetition Times
 

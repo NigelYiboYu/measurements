@@ -17,6 +17,11 @@ PLOT_ROWS <- 4
 PLOT_WIDTH <- 300
 PLOT_HEIGHT <- 300
 
+STRIPE_WIDTH <- 600
+STRIPE_HEIGHT <- 180
+
+VM_BASELINE <- 'OpenJDK'
+
 
 # Incrementally load data.
 # This is O(n^2) as it should be :-)
@@ -46,20 +51,13 @@ for (vm_dir in vm_dirs) {
 # TODO Eventually the harness should dump nanosecond CSV files.
 master <- master %>% mutate (time = time / 1000)
 
-# Change names for pretty printing.
-# Also enforce ordering with Oracle JDK first,
-# since it is probably closest to reference we have.
-# TODO Eventually this should be read from metadata.
-master <- master %>% mutate (vm = gsub ('-', ' ', vm))
-master <- master %>% mutate (vm = factor (vm, ordered = TRUE, levels = c (
-    'HotSpot JDK 8',
-    'HotSpot JDK 8 JVMCI',
-    'OpenJDK JDK 8',
-    'OpenJDK JDK 8 JVMCI',
-    'GraalCE JDK 8',
-    'GraalEE JDK 8',
-    'OpenJ9 JDK 8'
-)))
+# We want baseline virtual machine to the left.
+# TODO Eventually this should be read from platform metadata.
+master <- master %>% mutate (vm = factor (
+    vm,
+    ordered = TRUE, 
+    levels = c ('OpenJDK', 'OpenJ9', 'GraalVM-CE', 'GraalVM'),
+    labels = c ('OpenJDK', 'OpenJ9', 'GraalVM CE', 'GraalVM')))
 
 
 # Annotate data with cold vs warm information.
@@ -74,6 +72,12 @@ WARM_CUTOFF_TIME <- BENCHMARK_EXEC_TIME * 0.5
 master <- master %>% group_by (benchmark, vm, run) %>% mutate (total = cumsum (time))
 master <- master %>% mutate (warm = (total >= WARM_CUTOFF_TIME))
 master <- master %>% ungroup ()
+
+
+# Helper function for averaging over runs.
+get_run_means <- function (data) {
+    return (data %>% group_by (run) %>% summarize (avg = mean (time)) %>% pull (avg))
+}
 
 
 # Simple violin plots: Single plot per benchmark
@@ -110,8 +114,13 @@ do_plot_violin <- function (data) {
 
 do_mean_interval <- function (data, key) {
     # Key not used but supplied by dplyr::group_map.
-    runs <- data %>% group_by (run) %>% summarize (avg = mean (time)) %>% pull (avg)
+
+    # We work on run means for speed.
+    runs <- get_run_means (data)
+
+    # Standard bootstrap computation.    
     mean_boot <- boot (runs, function (d, i) mean (d [i]), R = REPLICATES)
+
     # The computations can fail so fall back to something if they do.
     mean_ci <- tryCatch (boot.ci (mean_boot, type = 'bca', conf = CONFIDENCE), error = function (e) NA)
     if (!any (is.na (mean_ci))) return (data.frame (avg = mean_boot $ t0, lo = mean_ci $ bca [1,4], hi = mean_ci $ bca [1,5]))
@@ -134,9 +143,67 @@ do_plot_mean <- function (data) {
 }
 
 
+# Simple ratio plots: Single plot per benchmark
+
+# Compute ratio with confidence intervals.
+# We use stratified bootstrap computation for confidence intervals.
+
+do_ratio_interval <- function (data, key, orig) {
+
+    # We work on run means for speed.
+    runs <- get_run_means (data)
+
+    # Get the baseline from the original data.
+    base <- get_run_means (orig %>% filter (benchmark == key $ benchmark, vm == VM_BASELINE))
+
+    # Helper function for stratified bootstrap.
+    meanify <- function (data, index) {
+        data_top <- data $ value [index [data $ strata]]
+        data_bot <- data $ value [index [!data $ strata]]
+        return (mean (data_top) / mean (data_bot))
+    }
+
+    # Stratified bootstrap computation.
+    means_tibble <- bind_rows (tibble (value = runs, strata = FALSE), tibble (value = base, strata = TRUE))
+    ratio_boot <- boot (means_tibble, meanify, R = REPLICATES, strata = means_tibble $ strata)
+
+    # The computations can fail so fall back to something if they do.
+    ratio_ci <- tryCatch (boot.ci (ratio_boot, type = 'bca', conf = CONFIDENCE), error = function (e) NA)
+    if (!any (is.na (ratio_ci))) return (data.frame (avg = ratio_boot $ t0, lo = ratio_ci $ bca [1,4], hi = ratio_ci $ bca [1,5]))
+    ratio_ci <- tryCatch (boot.ci (ratio_boot, type = 'basic', conf = CONFIDENCE), error = function (e) NA)
+    if (!any (is.na (ratio_ci))) return (data.frame (avg = ratio_boot $ t0, lo = ratio_ci $ basic [1,4], hi = ratio_ci $ basic [1,5]))
+    return (data.frame (avg = ratio_boot $ t0, lo = NA, hi = NA))
+}
+
+do_plot_ratio <- function (data) {
+    summary <- data %>%
+        group_by (benchmark, vm) %>%
+        group_map (do_ratio_interval, data)
+    ggplot (summary, aes (x = vm, y = avg * 100, ymin = lo * 100, ymax = hi * 100, fill = vm)) +
+        geom_col () +
+        geom_errorbar (width = 0.5) +
+        facet_wrap (vars (benchmark), nrow = 1, scales = 'free_y', strip.position = 'bottom') +
+        labs (x = NULL, y = 'Average speed up to OpenJDK baseline [%]', fill = 'JVM implementation') +
+        theme (
+            text = element_text (family = 'Serif'),
+            legend.position = 'bottom',
+            axis.text.x = element_blank (),
+            axis.ticks.x = element_blank (),
+            axis.title.y = element_text (size = 14),
+            strip.text.x = element_text (angle = 90, vjust = 0.5, hjust = 1, size = 14),
+            strip.background = element_blank (),
+            legend.text = element_text (size = 14),
+            legend.title = element_text (size = 14)) +
+        scale_fill_manual (
+            breaks = c ('OpenJDK', 'OpenJ9', 'GraalVM CE', 'GraalVM'),
+            values = c ('#ecd5a0', '#60aa52', '#a73607', '#6e8ab1'))
+}
+
+
 # Prepare plots for web.
 
 data <- master %>% filter (warm)
 
+ggsave ('stripe.png', do_plot_ratio (data), width = STRIPE_WIDTH, height = STRIPE_HEIGHT, unit = 'mm')
 ggsave ('overview-mean.png', do_plot_mean (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
 ggsave ('overview-violin.png', do_plot_violin (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
