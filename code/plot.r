@@ -208,5 +208,5 @@ do_plot_ratio <- function (data) {
 data <- master %>% filter (warm)
 
 ggsave ('stripe.png', do_plot_ratio (data), width = STRIPE_WIDTH, height = STRIPE_HEIGHT, unit = 'mm', bg = 'transparent')
-#ggsave ('overview-mean.png', do_plot_mean (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
-#ggsave ('overview-violin.png', do_plot_violin (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
+ggsave ('overview-mean.png', do_plot_mean (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
+ggsave ('overview-violin.png', do_plot_violin (data), width = PLOT_WIDTH, height = PLOT_HEIGHT, unit = 'mm')
