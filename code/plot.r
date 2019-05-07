@@ -57,8 +57,8 @@ master <- master %>% mutate (time = time / 1000)
 master <- master %>% mutate (vm = factor (
     vm,
     ordered = TRUE, 
-    levels = c ('OpenJDK', 'OpenJ9', 'GraalVM-CE', 'GraalVM'),
-    labels = c ('OpenJDK', 'OpenJ9', 'GraalVM CE', 'GraalVM')))
+    levels = c ('OpenJDK', 'OpenJ9', 'GraalVM-CE', 'GraalVM-EE'),
+    labels = c ('OpenJDK', 'OpenJ9', 'GraalVM CE', 'GraalVM EE')))
 
 
 # Annotate data with cold vs warm information.
@@ -199,7 +199,7 @@ do_plot_ratio <- function (data) {
             legend.box.background = element_rect (fill = 'transparent', color = NA),
             plot.background = element_rect (fill = 'transparent', color = NA)) +
         scale_fill_manual (
-            breaks = c ('OpenJDK', 'OpenJ9', 'GraalVM CE', 'GraalVM'),
+            breaks = c ('OpenJDK', 'OpenJ9', 'GraalVM CE', 'GraalVM EE'),
             values = c ('#ecd5a0', '#60aa52', '#a73607', '#6e8ab1'))
 }
 
