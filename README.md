@@ -49,7 +49,7 @@ OpenJDK Runtime Environment (build 1.8.0_202-20190206132807.buildslave.jdk8u-src
 OpenJDK GraalVM CE 1.0.0-rc16 (build 25.202-b08-jvmci-0.59, mixed mode)
 ```
 
-- **GraalVM** is Graal Enterprise Edition 1.0.0-rc16.
+- **GraalVM EE** is Graal Enterprise Edition 1.0.0-rc16.
 ```
 > java -version
 java version "1.8.0_202"
