@@ -30,17 +30,6 @@ The JVM implementations referenced in the results are:
 
 - **OpenJDK** is the Graal Community Edition JVM implementation run with `-XX:-EnableJVMCI -XX:-UseJVMCICompiler` to force the use of the default OpenJDK JIT compiler.
 
-- **OpenJ9** is the Eclipse OpenJ9 JVM implementation.
-```
-java -version
-openjdk version "1.8.0_212"
-OpenJDK Runtime Environment (build 1.8.0_212-b03)
-Eclipse OpenJ9 VM (build openj9-0.14.0, JRE 1.8.0 Linux amd64-64-Bit Compressed References 20190417_286 (JIT enabled, AOT enabled)
-OpenJ9   - bad1d4d06
-OMR      - 4a4278e6
-JCL      - 5590c4f818 based on jdk8u212-b03)
-```
-
 - **GraalVM CE** is Graal Community Edition 1.0.0-rc16.
 ```
 > java -version
